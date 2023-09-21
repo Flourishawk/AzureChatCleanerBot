@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ChatBotCalculatorV2": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7263",
+      "launchBrowser": false
+    }
+  }
+}
