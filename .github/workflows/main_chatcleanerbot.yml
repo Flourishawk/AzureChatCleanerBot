@@ -39,4 +39,4 @@ jobs:
           app-name: 'ChatCleanerBot'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3AB4D51851BA4FCFA8A26F57F7690F35 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B9F79DB70D5A47A69483DBA93A64E0E8 }}
