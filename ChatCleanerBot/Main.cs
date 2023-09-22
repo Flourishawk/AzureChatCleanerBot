@@ -32,10 +32,11 @@ namespace ChatBotCalculatorV2
         {
 
 
-            log.LogInformation("C# bot trigger");
+            log.LogInformation("C# bot trigger1");
             int x = int.Parse(req.Query["x"]);
+            log.LogInformation("C# bot trigger2");
             int y = int.Parse(req.Query["y"]);
-
+            log.LogInformation("C# bot trigger3");
             int result = x + y;
                         /*
             string TelegramBotToken = getSecret("TelegramBotToken");
@@ -55,6 +56,7 @@ namespace ChatBotCalculatorV2
             );
             Console.ReadLine();
                         */
+                        log.LogInformation("C# bot trigger4");
             return new OkObjectResult(result);
             
         }
