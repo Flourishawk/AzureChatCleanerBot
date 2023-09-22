@@ -24,23 +24,31 @@ namespace ChatBotCalculatorV2
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# bot trigger");
+            log.LogInformation("1 Log");
             string TelegramBotToken = getSecret("TelegramBotToken");
+            log.LogInformation("2 Log");
             ITelegramBotClient bot = new TelegramBotClient(TelegramBotToken);
+            log.LogInformation("3 Log");
             Console.WriteLine("Activated bot" + bot.GetMeAsync().Result.FirstName);
+            log.LogInformation("4 Log");
             var cts = new CancellationTokenSource();
+            log.LogInformation("5 Log");
             var cancellationToken = cts.Token;
+            log.LogInformation("6 Log");
             var receiverOptions = new ReceiverOptions
             {
                 AllowedUpdates = { },
             };
+            log.LogInformation("7 Log");
             bot.StartReceiving(
                 HandleUpdateAsync,
                 HandleErrorAsync,
                 receiverOptions,
                 cancellationToken
             );
+            log.LogInformation("8 Log");
             Console.ReadLine();
+            log.LogInformation("9 Log");
             return new OkObjectResult("Ok");
         }
 
