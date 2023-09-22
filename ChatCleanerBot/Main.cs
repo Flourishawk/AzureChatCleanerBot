@@ -25,7 +25,7 @@ namespace ChatBotCalculatorV2
             ILogger log)
         {
             log.LogInformation("1 Log");
-            string TelegramBotToken = getSecret("TelegramBotToken");
+            string TelegramBotToken = await getSecret("WalletOfKeys","TelegramBotToken");
             log.LogInformation("2 Log");
             ITelegramBotClient bot = new TelegramBotClient(TelegramBotToken);
             log.LogInformation("3 Log");
@@ -52,12 +52,12 @@ namespace ChatBotCalculatorV2
             return new OkObjectResult("Ok");
         }
 
-        public static string getSecret(string keySecretName)
+        public static async Task<string> getSecret(string keyVaultName, string keySecretName)
         {
-            string VaultUrl = $"https://walletofkeys.vault.azure.net/";
-            var client = new SecretClient(new Uri(VaultUrl), new DefaultAzureCredential());
-            KeyVaultSecret secret = client.GetSecret(keySecretName);
-            return (secret.Value);
+            string keyVaultUrl = $"https://{keyVaultName}.vault.azure.net";
+            var client = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
+            var secret = await client.GetSecretAsync(keySecretName);
+            return (secret.Value.Value);
         }
 
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -66,7 +66,7 @@ namespace ChatBotCalculatorV2
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
 
             var message = update.Message;
-            string idTelegram = getSecret("idTelegram");
+            string idTelegram = await getSecret("WalletOfKeys","idTelegram");
             if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message &&
                 message.From.ToString() != idTelegram &&
                 update.Message.ReplyToMessage != null)
