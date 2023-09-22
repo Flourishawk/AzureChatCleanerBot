@@ -24,15 +24,15 @@ namespace ChatBotCalculatorV2
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("С# бот отримав трігер");
+            log.LogInformation("C# bot trigger");
             string TelegramBotToken = getSecret("TelegramBotToken");
             ITelegramBotClient bot = new TelegramBotClient(TelegramBotToken);
-            Console.WriteLine("Запущений бот " + bot.GetMeAsync().Result.FirstName);
+            Console.WriteLine("Activated bot" + bot.GetMeAsync().Result.FirstName);
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
             var receiverOptions = new ReceiverOptions
             {
-                AllowedUpdates = { }, // receive all update types
+                AllowedUpdates = { },
             };
             bot.StartReceiving(
                 HandleUpdateAsync,
