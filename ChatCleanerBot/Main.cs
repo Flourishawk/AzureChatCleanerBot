@@ -41,7 +41,7 @@ namespace ChatBotCalculatorV2
                 cancellationToken
             );
             Console.ReadLine();
-            return new OkResult();
+            return new OkObjectResult("Ok");
         }
 
         public static string getSecret(string keySecretName)
