@@ -14,6 +14,12 @@ using Microsoft.Azure.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
 
+
+/*
+Протестувати з простеньким застосунком цифер звідси https://www.youtube.com/watch?v=kdRVComKwOc
+*/
+
+
 namespace ChatBotCalculatorV2
 {
     public static class ChatCleanerBot
@@ -24,7 +30,14 @@ namespace ChatBotCalculatorV2
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+
+
             log.LogInformation("C# bot trigger");
+            int x = int.Parse(req.Query["x"]);
+            int y = int.Parse(req.Query["y"]);
+
+            int result = x + y;
+                        /*
             string TelegramBotToken = getSecret("TelegramBotToken");
             ITelegramBotClient bot = new TelegramBotClient(TelegramBotToken);
             Console.WriteLine("Activated bot" + bot.GetMeAsync().Result.FirstName);
@@ -41,9 +54,12 @@ namespace ChatBotCalculatorV2
                 cancellationToken
             );
             Console.ReadLine();
-            return new OkObjectResult("Ok");
+                        */
+            return new OkObjectResult(result);
+            
         }
 
+        /*
         public static string getSecret(string keySecretName)
         {
             string VaultUrl = $"https://walletofkeys.vault.azure.net/";
@@ -73,5 +89,6 @@ namespace ChatBotCalculatorV2
         {
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(exception));
         }
+        */
     }
 }
