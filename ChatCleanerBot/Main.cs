@@ -24,6 +24,7 @@ namespace ChatBotCalculatorV2
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+            log.LogInformation("С# бот отримав трігер");
             string TelegramBotToken = getSecret("TelegramBotToken");
             ITelegramBotClient bot = new TelegramBotClient(TelegramBotToken);
             Console.WriteLine("Запущений бот " + bot.GetMeAsync().Result.FirstName);
