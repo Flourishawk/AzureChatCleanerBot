@@ -9,8 +9,6 @@ using Telegram.Bot;
 using System.Threading;
 using Telegram.Bot.Types;
 using Telegram.Bot.Polling;
-using Microsoft.Azure.Services.AppAuthentication;
-using Microsoft.Azure.KeyVault;
 using Azure.Security.KeyVault.Secrets;
 using Azure.Identity;
 
@@ -21,34 +19,25 @@ namespace ChatBotCalculatorV2
         
         [FunctionName("ChatBotCalculator")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post","head", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("1 Log");
             string TelegramBotToken = await getSecret("TelegramBotToken");
-            log.LogInformation("2 Log");
             ITelegramBotClient bot = new TelegramBotClient(TelegramBotToken);
-            log.LogInformation("3 Log");
             Console.WriteLine("Activated bot" + bot.GetMeAsync().Result.FirstName);
-            log.LogInformation("4 Log");
             var cts = new CancellationTokenSource();
-            log.LogInformation("5 Log");
             var cancellationToken = cts.Token;
-            log.LogInformation("6 Log");
             var receiverOptions = new ReceiverOptions
             {
                 AllowedUpdates = { },
             };
-            log.LogInformation("7 Log");
             bot.StartReceiving(
                 HandleUpdateAsync,
                 HandleErrorAsync,
                 receiverOptions,
                 cancellationToken
             );
-            log.LogInformation("8 Log");
             Console.ReadLine();
-            log.LogInformation("9 Log");
             return new OkObjectResult("Ok");
         }
 
@@ -58,11 +47,11 @@ namespace ChatBotCalculatorV2
             string clientID = "61a0661b-938b-4c1a-837a-39570660fefd";
             string tenantId = "b34aafba-3df0-425f-beef-f8de2163b096";
             string clientSecretId = "g5j8Q~B59YhTYMO9FCrSdSg360dNOwgLWxzsgc.H";
-
+            
             var credential = new ClientSecretCredential(tenantId,clientID,clientSecretId);
-
+            
             var client = new SecretClient(new Uri(keyVaultURL), credential);
-
+            
             var secret = await client.GetSecretAsync(keySecretName);
             return (secret.Value.Value);
         }
