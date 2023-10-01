@@ -58,19 +58,24 @@ namespace ChatBotCalculatorV2
 
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            // Некоторые действия
-            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
-
-            var message = update.Message;
-            string idTelegram = await getSecret("idTelegram");
-            if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message &&
-                message.From.ToString() != idTelegram &&
-                update.Message.ReplyToMessage != null)
+            try
             {
-                if (update.Message.ReplyToMessage.MessageThreadId == 2)
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update));
+
+                var message = update.Message;
+                string idTelegram = await getSecret("idTelegram");
+                if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message &&
+                    message.From.ToString() != idTelegram &&
+                    update.Message.ReplyToMessage != null)
                 {
-                    await botClient.DeleteMessageAsync(message.Chat, message.MessageId);
+                    if (update.Message.ReplyToMessage.MessageThreadId == 2)
+                    {
+                        await botClient.DeleteMessageAsync(message.Chat, message.MessageId);
+                    }
                 }
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
